@@ -108,7 +108,87 @@ For example, in game NFT Manager we can see token URI of each NFT character:
 
 ![image](https://user-images.githubusercontent.com/107640719/178401122-23563e0e-e669-44c4-a206-f78568179e99.png)
 
-To upload this metadata I used `https://github.com/ericvanderwal/NFTStorageUnitySDK`. All related code see in `NftStorage.cs` file.
+To upload this metadata I used `https://github.com/ericvanderwal/NFTStorageUnitySDK` (very useful, thx Eric). 
+
+Some code snippets that I used in game:
+
+```
+// load skin asset 
+UnityWebRequest request = UnityWebRequest.Get(Application.streamingAssetsPath + "/" + fileDirectory + fileAssetName);
+await request.SendWebRequest();
+
+if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+{
+    // handle failure
+    Debug.Log("request failure: " + request.result.ToString());
+}
+else
+{
+    try
+    {
+        StartCoroutine(NFTstorage.NetworkManager.UploadObject(CallBackOnUpload, request.downloadHandler.data));
+    }
+    catch (Exception x)
+    {
+        // handle failure
+        Debug.LogError(x.Message);
+    }
+}
+        
+// Callback 
+private void CallBackOnUpload(NFTstorage.DataResponse obj)
+{
+    if (!obj.Success)
+    {
+        Debug.Log("Error upload file data");
+        return;
+    }
+
+    Debug.Log("CallBackOnUpload: " + obj.Values[0].cid);
+
+    if (obj.Values != null && obj.Values.Count > 0)
+    {
+        if (obj.Values != null)
+        {
+            // set IPFS to NFTMetadata object
+            nftMetaData.SetIPFS(obj.Values[0].cid);
+        }
+    }
+}
+```
+
+Then continue to set-up your `NFTMetadata` object and upload:
+
+```
+public NFTstorage.ERC721.NftMetaData nftMetaData;
+
+// here process of setting nftMetaData
+
+var bytes = NFTstorage.Helper.ERC721MetaDataToBytes(nftMetaData);
+// Upload metadata to NFT.storage
+StartCoroutine(NFTstorage.NetworkManager.UploadObject(CallBackOnUploadMetadata, bytes));
+
+// Callbacks
+// Upload Metadata
+async private void CallBackOnUploadMetadata(NFTstorage.DataResponse obj)
+{
+    if (obj.Success)
+    {
+        if (obj.Values != null && obj.Values.Count > 0)
+        {
+            var path = Helper.GenerateGatewayPath(obj.Values[0].cid, Constants.GatewaysSubdomain[0], true);
+            Debug.Log("Metadata set to: " + path);
+        }
+    }
+    else
+    {
+        Debug.Log("Error uploading metadata to NFT.storage " + obj.Error.message);
+    }
+}
+```
+
+I added additional own fields to NFTMetadata class of NFTStorageUnitySDK. 
+Completed real working in game token URI: `bafkreid3mdgtmgmqnhbkzatkcggsr7evnfjl7pldryz4j2ayxl6q3sa444.ipfs.nftstorage.link`
 
 ## -- Dignitas Bounty --
 
