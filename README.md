@@ -108,11 +108,11 @@ For example, in game NFT Manager we can see token URI of each NFT character:
 
 ![image](https://user-images.githubusercontent.com/107640719/178401122-23563e0e-e669-44c4-a206-f78568179e99.png)
 
-To upload this metadata I used `https://github.com/ericvanderwal/NFTStorageUnitySDK`. All related code see in `NftStorage` folder.
+To upload this metadata I used `https://github.com/ericvanderwal/NFTStorageUnitySDK`. All related code see in `NftStorage.cs` file.
 
 ## -- Dignitas Bounty --
 
-Provided by judges smart-contract address `0xed1dd0a4ddf6823e4f9aef6cba92627b71707b10` has 5 items with attributes - `health`, `speed`, `power`, `defend`, `attack`. The idea of using each is to allow users to customize flags by texturing with images of attributes and then increasing this attribute of the nearest game character (the second part wasn't implemented all). All related code see in `Dignitas` folder.
+Provided by judges smart-contract address `0xed1dd0a4ddf6823e4f9aef6cba92627b71707b10` has 5 items with attributes - `health`, `speed`, `power`, `defend`, `attack`. The idea of using each is to allow users to customize flags by texturing with images of attributes and then increasing this attribute of the nearest game character (the second part wasn't implemented all). All related code see in `Dignitas.cs` file.
 
 ![image](https://user-images.githubusercontent.com/107640719/178403303-21481628-da5b-423f-bf84-a13b9972259e.png)
 
