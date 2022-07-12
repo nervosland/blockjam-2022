@@ -1,5 +1,7 @@
 # blockjam-2022
 
+[Nervos.land](http://demo.nervos.land/) - demo
+
 ## Smart contracts: 
 
 Main game contract:   `0x29862367c3Ba29e47519DAf105fA0a93F23C0C05`
